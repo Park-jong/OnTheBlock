@@ -1,13 +1,13 @@
-package com.ensemble.ensemble;
+package com.ontheblock.www;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EnsembleApplication {
+public class OntheblockApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EnsembleApplication.class, args);
+		SpringApplication.run(OntheblockApplication.class, args);
 	}
 
 }
