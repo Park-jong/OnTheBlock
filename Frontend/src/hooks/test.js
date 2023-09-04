@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-export const testCount = create(set => ({
+export const testCountState = create(set => ({
     count: 0,
-    setCount: () => { count = count + 1 }
+    setCount: () => set(state => ({ count: state.count + 1 }))
 }))
