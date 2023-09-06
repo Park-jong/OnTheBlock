@@ -1,15 +1,3 @@
-import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
-
-function Main() {
-  const navigate = useNavigate();
-
-  return (
-    <>
-      <div>Main</div>
-      <Button onClick={() => navigate("/")}>랜딩 페이지로 이동</Button>
-    </>
-  );
-}
-
-export default Main;
+version https://git-lfs.github.com/spec/v1
+oid sha256:880c905c4dbf9ad14a0274dc3258b84017aaa9f10f15baa45f57ca8b504b4d4e
+size 2691
