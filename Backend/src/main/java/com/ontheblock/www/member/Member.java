@@ -11,7 +11,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="member_id")
     private Long id;
-
+    private String nickName;
     private String email;
     private String description;
     private String token;
