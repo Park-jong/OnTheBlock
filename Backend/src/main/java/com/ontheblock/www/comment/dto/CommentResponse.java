@@ -1,7 +1,7 @@
 package com.ontheblock.www.comment.dto;
 
 import com.ontheblock.www.comment.domain.Comment;
-import com.ontheblock.www.member.dto.MemberResponse;
+import com.ontheblock.www.member.dto.response.MemberResponse;
 import lombok.Data;
 
 import java.time.LocalDateTime;
