@@ -9,5 +9,6 @@ import com.ontheblock.www.member.Member;
 @Repository
 public interface MemberFollowRepository extends JpaRepository<MemberFollow, Long> {
 	MemberFollow findByFollower(Member follower);
+	MemberFollow findByFollowerAndFollowing(Member follower, Member following);
 
 }
