@@ -9,7 +9,7 @@ import com.ontheblock.www.member.Member;
 
 @Repository
 public interface MemberGenreRepository extends JpaRepository<MemberGenre, Long> {
-	MemberGenre findByMemberAndMusicGenre(Member member, Genre genre);
+	MemberGenre findByMemberAndGenre(Member member, Genre genre);
 
 
 }
