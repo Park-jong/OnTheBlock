@@ -1,11 +1,3 @@
-package com.ontheblock.www.member.repository;
-
-import com.ontheblock.www.member.Member;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
-    Member findByEmail(@Param("email") String email);
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:4b3fc30c0791fa31574c29caadb7f3701f018cc6df0a80cf5dd3a5cb010a3576
+size 587
