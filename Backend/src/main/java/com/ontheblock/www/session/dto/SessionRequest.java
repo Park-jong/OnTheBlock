@@ -6,5 +6,5 @@ import lombok.Data;
 public class SessionRequest {
     Long memberId;
 
-    Integer instrumentId;
+    Long instrumentId;
 }
