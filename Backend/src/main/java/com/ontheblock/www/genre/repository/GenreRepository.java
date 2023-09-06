@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.ontheblock.www.genre.domain.Genre;
 
 @Repository
-public interface GenreRepository extends JpaRepository<Genre, Integer> {
+public interface GenreRepository extends JpaRepository<Genre, Long> {
 
 
 }

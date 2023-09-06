@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.ontheblock.www.notice.domain.MemberNotice;
 
 @Repository
-public interface MemberNoticeRepository extends JpaRepository<MemberNotice, Integer> {
+public interface MemberNoticeRepository extends JpaRepository<MemberNotice, Long> {
 
 
 }

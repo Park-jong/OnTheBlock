@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.ontheblock.www.instrument.domain.MemberInstrument;
 
 @Repository
-public interface MemberInstrumentRepository extends JpaRepository<MemberInstrument, Integer> {
+public interface MemberInstrumentRepository extends JpaRepository<MemberInstrument, Long> {
 
 }
