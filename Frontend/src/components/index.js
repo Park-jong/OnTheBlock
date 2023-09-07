@@ -1,4 +1,6 @@
 export { default as Header } from './layout/Header'
 export { default as Footer } from './layout/Footer'
+export { default as MyPageInfo } from './mypage/MyPageInfo'
+export { default as MyPageContent } from './mypage/MyPageContent'
 export { default as Thumbnail } from './thumbnail/Thumbnail'
 export { default as ThumbnailSwiper } from './thumbnail/ThumbnailSwiper'
