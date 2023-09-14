@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { RecordComponent } from "@/components";
+import { RecordComponent, SessionSearchComponent } from "@/components";
 
 function Record() {
   const navigate = useNavigate();
@@ -8,6 +8,7 @@ function Record() {
   return (
     <S.Wrap>
       <RecordComponent />
+      <SessionSearchComponent />
     </S.Wrap>
   );
 }
