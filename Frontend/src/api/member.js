@@ -2,7 +2,7 @@ import { client, clientWithToken } from "./client";
 
 const MemberURL = 'member/';
 
-export const getProfileInfo = () => {
+export const getUserInfo = () => {
     return clientWithToken().get(MemberURL + 'check');
   };
 
