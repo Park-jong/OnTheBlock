@@ -12,4 +12,5 @@ public class MemberResponse {
         this.memberId = member.getId();
         this.nickname = member.getNickName();
     }
+
 }
