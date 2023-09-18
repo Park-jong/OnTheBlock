@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
-  plugins: [react(), "@remotion"],
+  plugins: [react(), react],
 
   resolve: {
     alias: { 

@@ -1,15 +1,3 @@
-import { client, clientWithToken } from "./client";
-
-const SessionURL = "/session/upload/check/";
-
-export const registSession = (session, file) => {
-  const formData = new FormData();
-  formData.append("session", JSON.stringify(session));
-  formData.append("file", file);
-
-  return clientWithToken().post(SessionURL, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data", // Set the content type to multipart/form-data
-    },
-  });
-};
+version https://git-lfs.github.com/spec/v1
+oid sha256:f36ba0bd18c4f9da557586cdc6175fb6b1be2c7f37a87af3761da4427b4f3b5c
+size 911
