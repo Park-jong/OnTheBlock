@@ -20,7 +20,7 @@ COPY nginx/nginx.conf /etc/nginx/conf.d
 
 RUN mkdir -p /etc/letsencrypt
 
-COPY /etc/letsencrypt /etc/letsencrypt
+COPY /letsencrypt /etc/letsencrypt
 
 EXPOSE 80 443
 
