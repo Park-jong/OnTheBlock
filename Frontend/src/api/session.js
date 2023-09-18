@@ -1,6 +1,6 @@
 import { client, clientWithToken } from "./client";
 
-const SessionURL = "session/";
+const SessionURL = "/session/upload/check/";
 
 export const registSession = (session, file) => {
   const formData = new FormData();
