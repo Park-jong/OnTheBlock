@@ -1,8 +1,8 @@
 import { client, clientWithToken } from "./client";
 
-const testURL = 'instrument/';
+const MemberURL = 'member/';
 
-export const getMemberInfo = () => {
-    return client().get(testURL + 'findAll');
+export const getProfileInfo = () => {
+    return clientWithToken().get(MemberURL + 'check');
+  };
 
-};
