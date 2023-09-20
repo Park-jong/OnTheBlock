@@ -1,13 +1,3 @@
-package com.ontheblock.www.member.service;
-
-import com.ontheblock.www.member.Member;
-import com.ontheblock.www.member.dto.response.MemberProfileResponse;
-
-public interface MemberService {
-    public void saveRefreshToken(Long memberId, String refreshToken);	                    // 토큰 저장
-    public String getRefreshToken(Long id);								// 토큰 반환
-    public void deleteRefreshToken(Long userId);                        // 토큰 삭제
-
-    MemberProfileResponse getMemberInfoById(Long id);
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:85ab58f9addcee31f095a67ba7b304559ced2f200c7c09e498099d50768c134d
+size 687
