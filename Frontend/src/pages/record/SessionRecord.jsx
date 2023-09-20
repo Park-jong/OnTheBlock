@@ -1,14 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { RecordComponent, SessionSearchComponent } from "@/components";
+import { RecordSessionComponent } from "@/components";
 
-function Record() {
+function SessionRecord() {
   const navigate = useNavigate();
 
   return (
     <S.Wrap>
-      <RecordComponent />
-      <SessionSearchComponent />
+      <RecordSessionComponent />
     </S.Wrap>
   );
 }
@@ -22,4 +21,4 @@ const S = {
   `,
 };
 
-export default Record;
+export default SessionRecord;
