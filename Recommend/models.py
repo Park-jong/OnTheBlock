@@ -1,10 +1,3 @@
-from sqlalchemy import Column, TEXT, INT, BIGINT
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-
-class Song(Base):
-    __tablename__ = "song"
-
-    song_id = Column(BIGINT, nullable=False, autoincrement=True, primary_key=True)
-    name = Column(TEXT)
+version https://git-lfs.github.com/spec/v1
+oid sha256:5887fddfb1f21b8545a0f0b38e1e6b4a4766f7d769a2d53280c0d8665b383b66
+size 1722
