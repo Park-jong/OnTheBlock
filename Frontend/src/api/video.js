@@ -1,16 +1,3 @@
-import { client, clientWithToken } from "./client";
-
-const VideoURL = "/videos";
-
-export const getVideo = (videoId) => {
-  return clientWithToken().get( VideoURL + "/" + videoId +"/detail");
-};
-
-//To-Do : 필요한 갯수만큼 가져오도록 백엔드 수정요망.
-export const getLatestVideoList = () => {
-  return clientWithToken().get(VideoURL + "/getLatestVideos");
-};
-
-export const postComment = (videoId, data) => {
-  
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f95d6ffa5ea4f6e127c0f02c4e58d48ce50f9fed47d252f98a1a17f851c37143
+size 668
