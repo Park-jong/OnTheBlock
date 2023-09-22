@@ -16,7 +16,8 @@ const S = {
   Wrap: styled.div`
     min-height: 100vh;
     background: #252525;
-    padding: 0px;
+    padding-top: 4em;
+    padding-bottom: 4em;
     color: #d7d7d7;
   `,
 };

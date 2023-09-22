@@ -1,15 +1,3 @@
-package com.ontheblock.www.genre.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import com.ontheblock.www.genre.domain.Genre;
-import com.ontheblock.www.genre.domain.MemberGenre;
-import com.ontheblock.www.member.Member;
-
-@Repository
-public interface MemberGenreRepository extends JpaRepository<MemberGenre, Long> {
-	MemberGenre findByMember(Member member);
-	MemberGenre findByMemberAndGenre(Member member, Genre genre);
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:33661531f2f6e2e698257e776301675749877f43e06a9621689b85586a37091d
+size 756
