@@ -7,6 +7,6 @@ export const getNotices = () => {
 };
 
 export const deleteNotice =(noticeId)=>{
-    return clientWithToken().delete(NoticeURL + noticeId + '/check', noticeId);
+    return clientWithToken().delete(NoticeURL + 'member/' + noticeId + '/check', noticeId);
 };
 
