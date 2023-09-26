@@ -12,7 +12,6 @@ import java.util.List;
 public class VideoRequest {
     String name;
     String description;
-    Long songId;
     SessionRequest session;
     SongRequest song;
     List<SessionOriginRequest> origins = new ArrayList<>();
