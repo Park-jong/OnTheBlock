@@ -3,10 +3,10 @@ import styled from "styled-components";
 function LoadingComponent() {
   
   return (
-    <div class="ld-ripple">
+    <S.Ripple class="ld-ripple">
       <div></div>
       <div></div>
-    </div>
+    </S.Ripple>
   );
 }
 
