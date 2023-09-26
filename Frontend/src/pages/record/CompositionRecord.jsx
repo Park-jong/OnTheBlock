@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:df64255499617e763348e4d5bcd9720296d153cbc383b75a82d8d12637ff97f7
-size 544
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { RecordCompositionComponent, SessionSearchComponent } from "@/components";
+
+function CompositionRecord() {
+  const navigate = useNavigate();
+
+  return (
+    <S.Wrap>
+      <RecordCompositionComponent />
+    </S.Wrap>
+  );
+}
+
+const S = {
+  Wrap: styled.div`
+    min-height: 100vh;
+    background: #252525;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    color: #d7d7d7;
+  `,
+};
+
+export default CompositionRecord;
