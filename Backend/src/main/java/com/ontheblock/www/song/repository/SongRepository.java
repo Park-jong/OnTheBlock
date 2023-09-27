@@ -1,11 +1,3 @@
-package com.ontheblock.www.song.repository;
-
-import java.util.List;
-
-import com.ontheblock.www.song.domain.Song;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface SongRepository extends JpaRepository<Song, Long> {
-	List<Song> findByName(String name);
-
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0a9e1362bee4937c1188ef8aa1ced06072df10a0a68eb676c4cd26e6b034842d
+size 622
