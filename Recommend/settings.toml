@@ -1,2 +1,2 @@
-endpoint = "http://localhost:9200"
+endpoint = "http://j9a402.p.ssafy.io:8050"
 index = "ontheblock"
