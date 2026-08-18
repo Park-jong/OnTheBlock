@@ -4,6 +4,7 @@ import com.ontheblock.www.comment.domain.Comment;
 import com.ontheblock.www.comment.dto.CommentRequest;
 import com.ontheblock.www.comment.dto.CommentResponse;
 import com.ontheblock.www.comment.repository.CommentRepository;
+import com.ontheblock.www.common.exception.ForbiddenException;
 import com.ontheblock.www.member.Member;
 import com.ontheblock.www.member.repository.MemberRepository;
 import com.ontheblock.www.notice.service.MemberNoticeService;
@@ -53,34 +54,22 @@ public class CommentService {
     @Transactional
     public void modifyComment(CommentRequest commentRequest){
         Member member = memberRepository.findById(commentRequest.getMemberId()).orElseThrow(()->new EntityNotFoundException("Member Not Found"));
-        Optional<Comment> optionalComment = commentRepository.findById(commentRequest.getCommentId());
-        if(optionalComment.isPresent()){
-            Comment comment=optionalComment.get();
-            // 작성자일 경우
-            if(comment.getMember().getId().equals(member.getId())){
-                comment.updateComment(commentRequest.getContent());
-            }
+        Comment comment = commentRepository.findById(commentRequest.getCommentId()).orElseThrow(EntityNotFoundException::new);
+        if(!comment.getMember().getId().equals(member.getId())){
+            throw new ForbiddenException("본인이 작성한 댓글만 수정할 수 있습니다.");
         }
-        else{
-            throw new EntityNotFoundException();
-        }
+        comment.updateComment(commentRequest.getContent());
     }
 
     //댓글 삭제
     @Transactional
     public void removeComment(Long commentId, Long memberId){
         Member member = memberRepository.findById(memberId).orElseThrow(()->new EntityNotFoundException("Member Not Found"));
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        if(optionalComment.isPresent()){
-            Comment comment=optionalComment.get();
-            // 작성자일 경우
-            if(comment.getMember().getId().equals(member.getId())){
-                commentRepository.delete(comment);
-            }
+        Comment comment = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+        if(!comment.getMember().getId().equals(member.getId())){
+            throw new ForbiddenException("본인이 작성한 댓글만 삭제할 수 있습니다.");
         }
-        else{
-            throw new EntityNotFoundException();
-        }
+        commentRepository.delete(comment);
     }
 
     //댓글 리스트

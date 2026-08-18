@@ -57,19 +57,19 @@ public class KaKaoController {
         // 쿠키로 보내면 자동으로 local에 저장됨.
         Cookie cookie = new Cookie("accessToken", accessToken);
         cookie.setHttpOnly(false);
-        cookie.setMaxAge(3600); // 쿠키 유효 시간 설정 (예: 1시간)
+        cookie.setMaxAge(JwtService.ACCESS_TOKEN_COOKIE_MAX_AGE_SECONDS);
         cookie.setPath("/");
         response.addCookie(cookie);
 
         Cookie cookie2 = new Cookie("refreshToken",refreshToken);
         cookie2.setHttpOnly(false);
-        cookie2.setMaxAge(3600);
+        cookie2.setMaxAge(JwtService.REFRESH_TOKEN_COOKIE_MAX_AGE_SECONDS);
         cookie2.setPath("/");
         response.addCookie(cookie2);
 
         Cookie cookie3 = new Cookie("memberId",member.getMemberId().toString());
         cookie3.setHttpOnly(false);
-        cookie3.setMaxAge(3600);
+        cookie3.setMaxAge(JwtService.ACCESS_TOKEN_COOKIE_MAX_AGE_SECONDS);
         cookie3.setPath("/");
         response.addCookie(cookie3);
 

@@ -12,6 +12,8 @@ import com.ontheblock.www.session.repository.SessionRepository;
 import com.ontheblock.www.video.domain.Video;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class SessionService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SessionService.class);
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -43,21 +47,20 @@ public class SessionService {
 
     // Session 영상 S3에 저장후, 주소 반환
     public String saveSessionToS3(Session session, MultipartFile file, Long memberId){
-        String registUrl=new String();
+        String folderName = "sessions" + "/" + memberId + "/" + session.getId(); // 원하는 폴더 이름
+        String fileName = folderName + "/" + file.getOriginalFilename();
         try{
-            String folderName = "sessions" + "/" + memberId + "/" + session.getId(); // 원하는 폴더 이름
-            String fileName = folderName + "/" + file.getOriginalFilename();
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentType(file.getContentType());
             objectMetadata.setContentLength(file.getSize());
 
             // 파일을 AWS S3에 업로드
             s3Client.putObject(bucket, fileName, file.getInputStream(), objectMetadata);
-            registUrl="https://project-ontheblock.s3.ap-northeast-2.amazonaws.com/" + fileName;
-
         } catch (Exception e) {
+            logger.error("Failed to upload session video to S3. sessionId={}, memberId={}", session.getId(), memberId, e);
+            throw new IllegalStateException("세션 영상 업로드에 실패했습니다.", e);
         }
-        return registUrl;
+        return s3Client.getUrl(bucket, fileName).toString();
     }
 
     // Session 영상 URL 변경

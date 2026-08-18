@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -20,11 +21,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class JwtService {
     public static final Logger logger = LoggerFactory.getLogger(JwtService.class);
-    private static final String SALT = "secretKey";
-    private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 60; // 분단위
-    private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
+    private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 60;
+    private static final int REFRESH_TOKEN_EXPIRE_WEEKS = 2;
+
+    public static final int ACCESS_TOKEN_COOKIE_MAX_AGE_SECONDS = 60 * ACCESS_TOKEN_EXPIRE_MINUTES;
+    public static final int REFRESH_TOKEN_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_WEEKS;
 
     private final MemberService memberService;
+
+    @Value("${jwt.secret}")
+    private String secret;
+
     @Autowired
     public JwtService(MemberService memberService){
         this.memberService=memberService;
@@ -33,11 +40,10 @@ public class JwtService {
 
     // AccessToken 생성
     public <T> String createAccessToken(Map<String, T> data) {
-        return create(data, "access-token", 1000 * 60 * ACCESS_TOKEN_EXPIRE_MINUTES);
+        return create(data, "access-token", ACCESS_TOKEN_COOKIE_MAX_AGE_SECONDS * 1000L);
     }
     public <T> String createRefreshToken(Map<String, T> data) {
-        return create(data, "refresh-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
-//		return create(key, data, "refresh-token", 1000 * 30 * ACCESS_TOKEN_EXPIRE_MINUTES); // 30초
+        return create(data, "refresh-token", REFRESH_TOKEN_COOKIE_MAX_AGE_SECONDS * 1000L);
     }
 
     public <T> String create(Map<String, T> data, String subject, long expire) {
@@ -72,7 +78,7 @@ public class JwtService {
         byte[] key = null;
         try {
             // charset 설정 안하면 사용자 플랫폼의 기본 인코딩 설정으로 인코딩 됨.
-            key = SALT.getBytes("UTF-8");
+            key = secret.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             if (logger.isInfoEnabled()) {
                 e.printStackTrace();
