@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+jwt:
+  secret: CHANGE_ME
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ontheblock
+    username: root
+    password: CHANGE_ME
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+
+cloud:
+  aws:
+    credentials:
+      accessKey: CHANGE_ME
+      secretKey: CHANGE_ME
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: CHANGE_ME
+
+kakao:
+  api:
+    key: CHANGE_ME
+    host: https://kapi.kakao.com
+  auth:
+    host: https://kauth.kakao.com
+  url:
+    redirect: http://localhost:8080/kakao/redirect
+
+google:
+  client:
+    id: CHANGE_ME
+    secret: CHANGE_ME
+  auth:
+    host: https://accounts.google.com
+  api:
+    host: https://www.googleapis.com
+  url:
+    redirect: http://localhost:8080/google/redirect
+
+front:
+  scheme: http
+  host: localhost:3000
+
+recommend:
+  url: http://localhost:5000

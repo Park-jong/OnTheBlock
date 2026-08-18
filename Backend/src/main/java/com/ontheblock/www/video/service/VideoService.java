@@ -2,6 +2,7 @@ package com.ontheblock.www.video.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.ontheblock.www.common.exception.ForbiddenException;
 import com.ontheblock.www.instrument.domain.Instrument;
 import com.ontheblock.www.instrument.repository.InstrumentRepository;
 import com.ontheblock.www.member.Member;
@@ -30,22 +31,24 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class VideoService {
+
+    private static final Logger logger = LoggerFactory.getLogger(VideoService.class);
 
     private final MemberRepository memberRepository;
     private final VideoRepository videoRepository;
@@ -152,14 +155,15 @@ public class VideoService {
     @Transactional
     public void removeVideo(Long videoId, Long memberId){
         Video video = videoRepository.findById(videoId).orElseThrow(()->new EntityNotFoundException("Video Not Found"));
-        if(video.getMember().getId().equals(memberId)){
-            videoRepository.delete(video);
-            deleteVideoFromS3(video.getThumbnailUrl());
-            // 비디오 세션이 하나만 존재할 경우(아무도 스크랩 안했을 경우)
-            if(video.getVideoSessions().size()==1){
-                sessionRepository.delete(video.getVideoSessions().get(0).getSession()); // DB에서 세션 삭제
-                deleteVideoFromS3(video.getVideoSessions().get(0).getSession().getSessionUrl()); // s3에서 세션 삭제
-            }
+        if(!video.getMember().getId().equals(memberId)){
+            throw new ForbiddenException("본인이 등록한 영상만 삭제할 수 있습니다.");
+        }
+        videoRepository.delete(video);
+        deleteVideoFromS3(video.getThumbnailUrl());
+        // 비디오 세션이 하나만 존재할 경우(아무도 스크랩 안했을 경우)
+        if(video.getVideoSessions().size()==1){
+            sessionRepository.delete(video.getVideoSessions().get(0).getSession()); // DB에서 세션 삭제
+            deleteVideoFromS3(video.getVideoSessions().get(0).getSession().getSessionUrl()); // s3에서 세션 삭제
         }
     }
 
@@ -174,7 +178,7 @@ public class VideoService {
             SessionResponse sessionResponse = new SessionResponse(videoSession);
             result.add(sessionResponse);
         }
-        return null;
+        return result;
     }
 
     //**=================내부 함수 영역==================//
@@ -191,10 +195,10 @@ public class VideoService {
 
             // 파일을 AWS S3에 업로드
             s3Client.putObject(bucket, fileName, thumbnail.getInputStream(), objectMetadata);
-            s3Url="https://project-ontheblock.s3.ap-northeast-2.amazonaws.com/" + fileName;
+            s3Url = s3Client.getUrl(bucket, fileName).toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to upload video thumbnail to S3. videoId={}, memberId={}", video.getId(), memberId, e);
         }
         return s3Url;
     }
@@ -202,11 +206,10 @@ public class VideoService {
     // Video 썸네일 S3에서 삭제
     public void deleteVideoFromS3(String s3Url) {
         try {
-            // "https://project-ontheblock.s3.ap-northeast-2.amazonaws.com/" 크기 = 59
-            String objectKey = s3Url.substring(59);
+            String objectKey = new URL(s3Url).getPath().substring(1); // 맨 앞 "/" 제거
             s3Client.deleteObject(bucket, objectKey);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to delete object from S3. s3Url={}", s3Url, e);
         }
     }
 

@@ -34,16 +34,13 @@ public class GoogleController {
 
     @GetMapping("/login")
     public void googleLoginOrRegister(HttpServletResponse httpServletResponse) throws Exception{
-        System.out.println("구글 로그인");
         googleClient.getAuthCode(httpServletResponse);
     }
 
     @GetMapping("/redirect")
     public ResponseEntity<?> googleRedirect(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception{
         String googleToken=googleClient.getToken(httpServletRequest.getParameter("code")); // authCode로 token 요청
-        System.out.println("구글 토큰: "+googleToken);
         GoogleUserInfo googleUserInfo=googleClient.getUserInfo(googleToken); // token으로 google member data 요청
-        System.out.println("유저 정보:"+googleUserInfo.getEmail());
         ResponseLoginMember member=socialService.googleLoginOrRegister(googleUserInfo);        // GoogleUserInfo 정보로 member 조회 or 저장
 
         Map<String, Object> tokenMap = new HashMap<>();
@@ -61,19 +58,19 @@ public class GoogleController {
         // 쿠키로 보내면 자동으로 local에 저장됨.
         Cookie cookie = new Cookie("accessToken", accessToken);
         cookie.setHttpOnly(false);
-        cookie.setMaxAge(3600); // 쿠키 유효 시간 설정 (예: 1시간)
+        cookie.setMaxAge(JwtService.ACCESS_TOKEN_COOKIE_MAX_AGE_SECONDS);
         cookie.setPath("/");
         httpServletResponse.addCookie(cookie);
 
         Cookie cookie2 = new Cookie("refreshToken",refreshToken);
         cookie2.setHttpOnly(false);
-        cookie2.setMaxAge(3600);
+        cookie2.setMaxAge(JwtService.REFRESH_TOKEN_COOKIE_MAX_AGE_SECONDS);
         cookie2.setPath("/");
         httpServletResponse.addCookie(cookie2);
 
         Cookie cookie3 = new Cookie("memberId",member.getMemberId().toString());
         cookie3.setHttpOnly(false);
-        cookie3.setMaxAge(3600);
+        cookie3.setMaxAge(JwtService.ACCESS_TOKEN_COOKIE_MAX_AGE_SECONDS);
         cookie3.setPath("/");
         httpServletResponse.addCookie(cookie3);
 

@@ -9,7 +9,6 @@ import jakarta.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -17,7 +16,6 @@ import java.util.Optional;
 public class MemberService {
 
 	private MemberRepository mr;
-	private MemberProfileResponse mpr;
 
 	public MemberService(MemberRepository mr) {
 		this.mr = mr;

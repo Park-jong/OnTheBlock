@@ -46,13 +46,11 @@ public class CheckLoginInterceptor implements HandlerInterceptor {
         request.setAttribute("id", id); // reqeust에 id를 담아서 controller로 보냄
         return true;
       } else {
-        System.out.println("MEMBER IS NOT REGISTERED");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.getWriter().write("MEMBER IS NOT REGISTERED");
         return false;
       }
     }
-    System.out.println("TOKEN IS NOT VALID NEED REFRESHTOKEN");
     response.setStatus(HttpStatus.UNAUTHORIZED.value());
     response.getWriter().write("TOKEN IS NOT VALID NEED REFRESHTOKEN");
     return false;
