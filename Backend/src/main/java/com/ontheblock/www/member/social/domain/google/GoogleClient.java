@@ -1,5 +1,6 @@
 package com.ontheblock.www.member.social.domain.google;
 
+import com.ontheblock.www.common.exception.ExternalApiException;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -72,9 +74,15 @@ public class GoogleClient {
 
     HttpEntity<?> request = new HttpEntity<>(httpHeaders);
 
-    GoogleToken googleToken = restTemplate
-        .postForObject(uriComponents.toString(), request, GoogleToken.class);
-
+    GoogleToken googleToken;
+    try {
+      googleToken = restTemplate.postForObject(uriComponents.toString(), request, GoogleToken.class);
+    } catch (RestClientException e) {
+      throw new ExternalApiException("구글 토큰 발급에 실패했습니다.", e);
+    }
+    if (googleToken == null) {
+      throw new ExternalApiException("구글 토큰 발급에 실패했습니다.", null);
+    }
     return googleToken.getAccessToken();
   }
 
@@ -94,7 +102,11 @@ public class GoogleClient {
         .queryParam("personFields", "emailAddresses,names")
         .build();
 
-    return restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, request, GoogleUserInfo.class).getBody();
+    try {
+      return restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, request, GoogleUserInfo.class).getBody();
+    } catch (RestClientException e) {
+      throw new ExternalApiException("구글 프로필 조회에 실패했습니다.", e);
+    }
   }
 
   public String getFrontURI(int isNewMember, String nickName) {

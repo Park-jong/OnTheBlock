@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ontheblock.www.common.exception.ForbiddenException;
 import com.ontheblock.www.member.Member;
 import com.ontheblock.www.member.repository.MemberRepository;
 import com.ontheblock.www.notice.domain.MemberNotice;
 import com.ontheblock.www.notice.repository.EmitterRepository;
 import com.ontheblock.www.notice.repository.MemberNoticeRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -122,7 +124,7 @@ public class MemberNoticeService {
 	// 알림 추가
 	public MemberNotice addMemberNotice(Long memberId, Integer noticeType, String noticeContent) {
 		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("Invalid member Id:" + memberId));
+			.orElseThrow(() -> new EntityNotFoundException("Invalid member Id:" + memberId));
 
 		Timestamp now = new Timestamp(System.currentTimeMillis());
 
@@ -146,10 +148,10 @@ public class MemberNoticeService {
 	// 알림 삭제
 	public void deleteMemberNotice(Long memberId, Long noticeId) {
 		MemberNotice notice = memberNoticeRepository.findById(noticeId)
-			.orElseThrow(() -> new IllegalArgumentException("Invalid notice Id:" + noticeId));
+			.orElseThrow(() -> new EntityNotFoundException("Invalid notice Id:" + noticeId));
 
 		if (!notice.getMember().getId().equals(memberId)) {
-			throw new IllegalArgumentException("You do not have permission to delete this notice");
+			throw new ForbiddenException("You do not have permission to delete this notice");
 		}
 
 		memberNoticeRepository.deleteById(noticeId);

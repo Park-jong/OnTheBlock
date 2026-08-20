@@ -66,7 +66,7 @@ public class MemberService {
 		}
 
 		Member member = mr.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+			.orElseThrow(() -> new EntityNotFoundException("Invalid user Id:" + id));
 		member.updateNickName(nickName);
 		mr.save(member);
 	}
@@ -89,7 +89,7 @@ public class MemberService {
 		}
 
 		Member member = mr.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+			.orElseThrow(() -> new EntityNotFoundException("Invalid user Id:" + id));
 		member.updateDescription(description);
 		mr.save(member);
 	}

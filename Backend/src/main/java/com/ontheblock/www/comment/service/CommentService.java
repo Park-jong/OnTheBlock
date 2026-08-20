@@ -54,7 +54,7 @@ public class CommentService {
     @Transactional
     public void modifyComment(CommentRequest commentRequest){
         Member member = memberRepository.findById(commentRequest.getMemberId()).orElseThrow(()->new EntityNotFoundException("Member Not Found"));
-        Comment comment = commentRepository.findById(commentRequest.getCommentId()).orElseThrow(EntityNotFoundException::new);
+        Comment comment = commentRepository.findById(commentRequest.getCommentId()).orElseThrow(()->new EntityNotFoundException("Comment Not Found"));
         if(!comment.getMember().getId().equals(member.getId())){
             throw new ForbiddenException("본인이 작성한 댓글만 수정할 수 있습니다.");
         }
@@ -65,7 +65,7 @@ public class CommentService {
     @Transactional
     public void removeComment(Long commentId, Long memberId){
         Member member = memberRepository.findById(memberId).orElseThrow(()->new EntityNotFoundException("Member Not Found"));
-        Comment comment = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()->new EntityNotFoundException("Comment Not Found"));
         if(!comment.getMember().getId().equals(member.getId())){
             throw new ForbiddenException("본인이 작성한 댓글만 삭제할 수 있습니다.");
         }

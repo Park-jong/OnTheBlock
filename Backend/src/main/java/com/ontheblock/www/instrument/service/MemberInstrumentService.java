@@ -9,6 +9,7 @@ import com.ontheblock.www.instrument.repository.MemberInstrumentRepository;
 import com.ontheblock.www.member.Member;
 import com.ontheblock.www.member.repository.MemberRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,7 @@ public class MemberInstrumentService {
 	@Transactional
 	public void addMemberInstrument(Long memberId, List<Instrument> instruments) {
 		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("No such user exists"));
+			.orElseThrow(() -> new EntityNotFoundException("No such user exists"));
 
 		// 해당 멤버의 MemberInstrument 다 삭제
 		List<MemberInstrument> memberInstruments = memberInstrumentRepository.findByMember(member);
@@ -56,7 +57,7 @@ public class MemberInstrumentService {
 	@Transactional
 	public List<Instrument> getMemberInstrument(Long memberId) {
 		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("No such user exists"));
+			.orElseThrow(() -> new EntityNotFoundException("No such user exists"));
 		List<MemberInstrument> memberInstruments = memberInstrumentRepository.findByMemberInstruments(member);
 		// 불러온 memberInstruments가 비어있는 경우
 		if (!memberInstruments.isEmpty()) {

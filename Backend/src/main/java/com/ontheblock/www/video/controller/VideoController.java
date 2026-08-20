@@ -133,13 +133,9 @@ public class VideoController {
     // Video 댓글 등록
     @PostMapping("/comments/check")
     public ResponseEntity<?> commentSave(@RequestBody CommentRequest commentRequest, HttpServletRequest request){
-        try {
-            Long memberId=(Long)request.getAttribute("id");
-            commentRequest.setMemberId(memberId);
-            commentService.saveComment(commentRequest);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("등록에 실패");
-        }
+        Long memberId=(Long)request.getAttribute("id");
+        commentRequest.setMemberId(memberId);
+        commentService.saveComment(commentRequest);
         return ResponseEntity.created(URI.create("/")).build();
     }
 

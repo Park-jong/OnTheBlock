@@ -12,6 +12,7 @@ import com.ontheblock.www.genre.repository.MemberGenreRepository;
 import com.ontheblock.www.member.Member;
 import com.ontheblock.www.member.repository.MemberRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +34,7 @@ public class MemberGenreService {
 	@Transactional
 	public void addMemberGenre(Long memberId, List<Genre> genres) {
 		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("No such user exists"));
+			.orElseThrow(() -> new EntityNotFoundException("No such user exists"));
 
 		// 해당 멤버의 MemberGenre 다 삭제
 		List<MemberGenre> memberGenres = memberGenreRepository.findByMember(member);
@@ -56,7 +57,7 @@ public class MemberGenreService {
 	@Transactional
 	public List<Genre> getMemberGenre(Long memberId) {
 		Member member = memberRepository.findById(memberId)
-			.orElseThrow(() -> new IllegalArgumentException("No such user exists"));
+			.orElseThrow(() -> new EntityNotFoundException("No such user exists"));
 		List<MemberGenre> memberGenres = memberGenreRepository.findByMemberGenres(member);
 		// 불러온 memberGenres 가 비어있는 경우
 		if (!memberGenres.isEmpty()) {

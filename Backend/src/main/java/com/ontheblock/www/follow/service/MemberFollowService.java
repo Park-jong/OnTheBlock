@@ -13,6 +13,7 @@ import com.ontheblock.www.member.Member;
 import com.ontheblock.www.member.repository.MemberRepository;
 import com.ontheblock.www.notice.service.MemberNoticeService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -62,10 +63,10 @@ public class MemberFollowService {
 		}
 
 		Member follower = memberRepository.findById(followerId)
-			.orElseThrow(() -> new IllegalArgumentException("No such follower"));
+			.orElseThrow(() -> new EntityNotFoundException("No such follower"));
 
 		Member following = memberRepository.findById(followingId)
-			.orElseThrow(() -> new IllegalArgumentException("No such following"));
+			.orElseThrow(() -> new EntityNotFoundException("No such following"));
 
 		MemberFollow memberFollow = MemberFollow.builder()
 			.follower(follower)
@@ -92,7 +93,7 @@ public class MemberFollowService {
 		}
 
 		if (!memberFollowRepository.existsByFollowerIdAndFollowingId(followerId, followingId)) {
-			throw new IllegalArgumentException("No such follow relationship");
+			throw new EntityNotFoundException("No such follow relationship");
 		}
 		memberFollowRepository.deleteByFollowerIdAndFollowingId(followerId, followingId);
 	}
